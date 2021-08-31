@@ -6,10 +6,15 @@ require 'omniauth/strategies/oauth2'
 module OmniAuth
   module Strategies
     class Potok < ::OmniAuth::Strategies::OAuth2
+      AUTHORIZE_PATH = '/api/v3/oauth/authorize'
+      TOKEN_PATH = '/api/v3/oauth/token'
+      ME_PATH = '/api/v3/me'
+
       option :name, 'potok'
       option :client_options, {
-        site: 'https://app.potok.io/api/v4',
-        authorize_url: 'https://app.potok.io/api/v4/oauth/authorize'
+        site: 'https://app.potok.io',
+        authorize_url: AUTHORIZE_PATH,
+        token_url: TOKEN_PATH
       }
 
       uid { raw_info['id'] }
@@ -28,7 +33,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= access_token.get('me').parsed
+        @raw_info ||= access_token.get(ME_PATH).parsed
       end
     end
   end
