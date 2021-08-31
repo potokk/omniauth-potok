@@ -16,8 +16,8 @@ module OmniAuth
 
       info do
         {
-          company_id: raw_info.dig('object', 'company_id'),
-          email: raw_info.dig('object', 'email')
+          company_id: raw_info.dig('company_id'),
+          email: raw_info.dig('email')
         }
       end
 
@@ -28,7 +28,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= access_token.get('credential').parsed
+        @raw_info ||= access_token.get('me').parsed
       end
     end
   end
